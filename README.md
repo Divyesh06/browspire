@@ -28,7 +28,7 @@ Currently, this extension has not been added to the Chrome Web Store. Hence, to 
 3. Go to chrome://extensions/
 4. Enable 'Developer mode'
 5. Click on 'Load Unpacked'
-6. Select the folder containing unzipped folder.
+6. Select the `browspire-main` folder from the unzipped folder.
 ----
 ## All Features
 
