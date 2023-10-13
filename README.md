@@ -1,5 +1,5 @@
 # Browspire - Custom Homepage and ToDo List
-By [Divyesh Lakhotia](https://anvil.works/forum/u/divyeshlakhotia/summary)
+By [Divyesh Lakhotia](https://www.linkedin.com/in/divyesh-lakhotia/)
 ___
 Enhance your browsing experience with a modern and comfortable homepage that matches your vibe and boosts your productivity. Customize to your liking!
 
@@ -24,11 +24,12 @@ Currently, this extension has not been added to the Chrome Web Store. Hence, to 
 **Installation Instructions For Chrome** :
 
 1. Download this repository as a .zip file
-2. Unzip the file. 
-3. Go to chrome://extensions/
-4. Enable 'Developer mode'
-5. Click on 'Load Unpacked'
-6. Select the `browspire-main` folder from the unzipped folder.
+   https://github.com/Divyesh06/browspire/archive/refs/heads/main.zip
+3. Unzip the file. 
+4. Go to chrome://extensions/
+5. Enable 'Developer mode'
+6. Click on 'Load Unpacked'
+7. Select the `browspire-main` folder from the unzipped folder.
 ----
 ## All Features
 
