@@ -1,0 +1,31 @@
+{  
+  "manifest_version": 3, 
+  "name": "Browspire - Custom Homepage & To-Do List",  
+  "description": "Enhance your browsing experience with a custom homepage that matches your vibe and boost your productivity.",  
+  "version": "1.1",
+  "icons": {
+    "16": "Assets/Logo16.png",
+    "32": "Assets/Logo32.png",
+    "48": "Assets/Logo48.png",
+    "128": "Assets/Logo128.png"
+  },  
+  "chrome_url_overrides" : {
+    "newtab": "New Tab.html"
+  },
+  "web_accessible_resources": [
+    {
+    "resources": ["popup_todo.html"],
+    "matches": ["<all_urls>"]
+    }
+  ],
+  "host_permissions": ["http://*/*", "https://*/*"],
+  "permissions": ["bookmarks","storage","tabs"],
+  "action": {  
+   "default_popup": "popup_todo.html"  
+  },
+ 
+  "content_scripts": [{
+    "matches": ["<all_urls>"],
+    "js": ["content.js"]
+  }]
+}
