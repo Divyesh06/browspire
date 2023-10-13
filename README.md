@@ -1,8 +1,25 @@
-# Anvil Live Changes
+# Browspire - Custom Homepage and ToDo List
 By [Divyesh Lakhotia](https://anvil.works/forum/u/divyeshlakhotia/summary)
+___
+Enhance your browsing experience with a modern and comfortable homepage that matches your vibe and boosts your productivity. Customize to your liking!
 
-This browser extension allows you to preview live changes on your Anvil App
+Browspire can give your New Tab page the most aesthetic look and feel ever. Its simple and customizable UI ensures that your browser truly feels like yours. 
+
+And of course, the best part is - you can access multiple widgets like Spotify, TODO lists, Weather, Quotes & more right from the New Tab page.
+
+
+
+
+
 ------
+
+## Installation For Edge :
+This extension will soon be available on Edge Addons Store
+
+------
+
+## Installation For Chrome :
+Currently, this extension has not been added to the Chrome Web Store. Hence, to use this extension with Chrome (or Chromium-based browsers like Brave), follow these steps - 
 
 **Installation Instructions For Chrome** :
 
@@ -11,14 +28,18 @@ This browser extension allows you to preview live changes on your Anvil App
 3. Go to chrome://extensions/
 4. Enable 'Developer mode'
 5. Click on 'Load Unpacked'
-6. Select the folder containing 'manifest.json' and 'runtime.js'
-7. Set the keyboard shortcut for updating your anvil app by visiting chrome://extensions/shortcuts or keep it default (Ctrl + Shift + U)
-8. Test it out by running your anvil app in a new tab and then making any change to your code
+6. Select the folder containing unzipped folder.
+----
+## All Features
 
-**Notes :** 
-1. This extension has only been tested on Chrome yet and may not support all browsers
-2. You may need to press the keyboard shortcut 2-3 times before the changes show up (Not sure why this happens yet)
-3. Only changes to Code are supported. Any change made through Design will not show up
-4. Please be on the Anvil Editor tab while pressing the keyboard shortcut
+🟣 Show a random wallpaper from our handpicked collection every time. You can also add or remove wallpapers to the collection.
+
+🟣 Access your favorite songs right from the New Tab page with the Spotify Widget.
+
+🟣 Maintain a ToDo list that is accessible anytime while browsing. Select a text from any page and add it to your tasks (along with a link to it), all using a single click!
+
+🟣 Stay motivated with a Quote of the Day
+
+🟣 Access real-time Weather & Date on your New Tab page
 
 
