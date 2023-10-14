@@ -1,5 +1,8 @@
 # Browspire - Custom Homepage and ToDo List
 By [Divyesh Lakhotia](https://www.linkedin.com/in/divyesh-lakhotia/)
+
+<img src="Media/New%20Tab%20Updated.png" alt="New Tab Page" width="700"/>
+
 ___
 Enhance your browsing experience with a modern and comfortable homepage that matches your vibe and boosts your productivity. Customize to your liking!
 
@@ -43,4 +46,4 @@ Currently, this extension has not been added to the Chrome Web Store. Hence, to 
 
 🟣 Access real-time Weather & Date on your New Tab page
 
-
+<img src="Media/Spotify.png" alt="New Tab Page" width="300"/> <img src="Media/TODO.png" alt="New Tab Page" width="300"/> <img src="Media/AddToTasks.png" alt="New Tab Page" width="300"/>
