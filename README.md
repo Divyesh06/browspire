@@ -32,7 +32,7 @@ Currently, this extension has not been added to the Chrome Web Store. Hence, to 
 4. Go to chrome://extensions/
 5. Enable 'Developer mode'
 6. Click on 'Load Unpacked'
-7. Select the `browspire-main` folder from the unzipped folder.
+7. Select the `Browspire Chrome Extension` folder from the unzipped folder.
 ----
 ## All Features
 
