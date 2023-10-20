@@ -16,13 +16,14 @@ And of course, the best part is - you can access multiple widgets like Spotify, 
 
 ------
 
-## Installation For Edge :
-This extension will soon be available on Edge Addons Store
+## Installation For Microsoft Edge :
+This extension can be downloaded from Edge Addons Store at https://microsoftedge.microsoft.com/addons/detail/nciolapbffaibfjkfojbhpneeihlnfbm
+
 
 ------
 
 ## Installation For Chrome :
-Currently, this extension has not been added to the Chrome Web Store. Hence, to use this extension with Chrome (or Chromium-based browsers like Brave), follow these steps - 
+
 
 **Installation Instructions For Chrome** :
 
