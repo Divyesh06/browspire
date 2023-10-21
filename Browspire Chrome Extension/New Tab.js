@@ -1,5 +1,4 @@
 //Implement data in chrome.storage if first time
-
 chrome.storage.sync.get("first_time", async function (first_time) {
   if (first_time.first_time != false) {
     chrome.storage.sync.set({ todo_data: [
@@ -56,6 +55,7 @@ spotify_input.addEventListener("change", function () {
 });
 
 
+
 links.addEventListener("wheel", scroll, { passive: false });
 search.addEventListener("keydown", open_google);
 
@@ -66,11 +66,11 @@ document.body.style.backgroundImage = `url(https://ik.imagekit.io/browspire/back
 })
 
 function convertFormat(time) {
-  let formmat = "PM";
-  if (time >= 12) {
+  let format = "PM";
+  if (time <= 12) {
     format = "AM";
   }
-  return formmat;
+  return format;
 }
 
 function checkTime(time) {
@@ -186,7 +186,7 @@ chrome.storage.local.get("weather", function (data) {
 
 function open_google(event) {
   if (event.keyCode === 13) {
-    window.open(`https://www.bing.com/search?q=${search.value}`);
+    window.open(`https://www.google.com/search?q=${search.value}`);
   }
 };
 
@@ -287,6 +287,12 @@ function generate_bookmarks(bookmarks) {
   current_scroll=0
   if(total_columns<=total_capacity*2){
     mode=2
+    arrow_left.style.display="none"
+    arrow_right.style.display="none"
+  }
+  else {
+    arrow_left.style.display="block"
+    arrow_right.style.display="block"
   }
   links.style.width=`${Math.floor(total_capacity)*90}px`
 
