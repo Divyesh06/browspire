@@ -5,80 +5,209 @@
 <body>
   <script src="confetti.js"></script>
   <div id="wrapper" style="padding: 8px;">
-  <div class="settings">
-    <i class="bi bi-gear-fill"></i>
-    &nbsp;Settings
-  </div>
-  <div id="date">
-    Date
-  </div>
-  <iframe class="spotify-embed card" width="25%" height="152px" frameborder="0" allowfullscreen=""
-    allow="autoplay; clipboard-write; encrypted-media; picture-in-picture" loading="lazy"></iframe>
-
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
-  <center>
-    <div id="clock">
-      <div id="time"></div>
-      
+    <div class="settings">
+      <i class="bi bi-gear-fill"></i>
+      &nbsp;Settings
     </div>
-    <div id="weather" class="card">Loading Weather Data</div>
-  </center>
-  <div class="quote card">
-    <div class="quote_mark">&#8220</div>
-    <div class="quote_text">Generating a fresh quote...</div>
-    <div class="quote_mark right_mark">&#8221</div>
-  </div>
+    <div id="date">
+      Date
+    </div>
+    <iframe class="spotify-embed card" width="25%" height="152px" frameborder="0" allowfullscreen=""
+      allow="autoplay; clipboard-write; encrypted-media; picture-in-picture" loading="lazy"></iframe>
 
-  <div class="todo card">
-    <div id="myDIV" class="header" style="background-color: rgba(0,0,0,0.1); border-radius: 25px 25px 0 0;">
-      <h1 style="margin: 5px;">My Tasks</h1>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <center>
+      <div id="clock">
+        <div id="time"></div>
+
+      </div>
+      <div id="weather" class="card">Loading Weather Data</div>
+    </center>
+    <div class="quote card">
+      <div class="quote_mark">&#8220</div>
+      <div class="quote_text">Generating a fresh quote...</div>
+      <div class="quote_mark right_mark">&#8221</div>
     </div>
 
-    <ul id="myUL"></ul>
-    <button class="addBtn"><i class="fa bi-plus"></i> Add Task</button>
-  </div>
-  <center>
-    <div class="card search-container">
-      <i class="bi bi-search"></i>
-      <input type="text" id="search" placeholder="Search Bookmarks or Bing" autofocus />
+    <div class="todo card">
+      <div id="myDIV" class="header" style="background-color: rgba(0,0,0,0.1); border-radius: 25px 25px 0 0;">
+        <h1 style="margin: 5px;">My Tasks</h1>
+      </div>
+
+      <ul id="myUL"></ul>
+      <button class="addBtn"><i class="fa bi-plus"></i> Add Task</button>
     </div>
-    <btn class="arrow-left card"><i class="bi bi-chevron-left"></i></btn>
-    <btn class="arrow-right card"><i class="bi bi-chevron-right"></i></btn>
-    <div class="links">
+    <center>
+      <div class="card search-container">
+        <i class="bi bi-search"></i>
+        <input type="text" id="search-bar" placeholder="Search Bookmarks" autofocus />
+      </div>
+      <btn class="arrow-left card"><i class="bi bi-chevron-left"></i></btn>
+      <btn class="arrow-right card"><i class="bi bi-chevron-right"></i></btn>
+      <div class="links">
+      </div>
+    </center>
+
+    <div class="settings-parent">
+      <div id="settings-container" class="card">
+        <h1 id="settings-title">
+          <div class="settings-tab active" id="preferences"><i class="bi bi-gear-fill"></i> &nbsp;Preferences</div>
+          <div class="settings-tab" id="backgrounds"><i class="bi bi-image"></i> &nbsp;Backgrounds</div>
+          <i class="bi bi-x-circle" style="float: right" id="close-settings"></i>
+        </h1>
+
+        <center>
+          <div class="settings-body" style="max-width: 70vw">
+            <div id="preferences-section">
+              <div class="settings-section">
+                <div class="settings-desc">
+                  <div class="settings-label"><i class="bi bi-spotify"></i> Spotify Widget URL
+                    <p class="small-text">Add a link to any Spoify track, playlist, album etc. To play full tracks or
+                      private
+                      playlists,
+                      you must be logged in to Spotify on this browser
+                    </p>
+                  </div>
+                </div>
+                <div class="settings-action">
+                  <input type="text" id="spotify-url" placeholder="Enter Spotify URL">
+                </div>
+              </div>
+              <div class="settings-section">
+                <div class="settings-desc">
+                  <div class="settings-label"><i class="bi bi-search"></i> Search Bar Engine
+                    <p class="small-text">Specify which search engine to use for the search bar</p>
+                    </p>
+                  </div>
+                </div>
+                <div class="settings-action">
+                  <select id="search-engine">
+                    <option value="Google">Google</option>
+                    <option value="Bing">Bing</option>
+                    <option value="DuckDuckGo">DuckDuckGo</option>
+                    <option value="Brave">Brave</option>
+                  </select>
+                </div>
+              </div>
+              <div class="settings-section" style="border: 0; margin-bottom: 15px; zoom: 1.2">
+                <div class="settings-desc">
+                  <div class="settings-label"><b><i class="bi bi-toggles"></i> Toggle Widgets</b></div>
+                </div>
+              </div>
+              <div class="settings-section remove-padding-border">
+                <div class="settings-desc">
+                  <div class="settings-label ">Search Bar</div>
+                </div>
+                <div class="settings-action">
+                  <i class="bi bi-toggle-off toggle" id="search" style="font-size: 30px;"></i>
+                </div>
+              </div>
+              <div class="settings-section remove-padding-border">
+                <div class="settings-desc">
+                  <div class="settings-label">Daily Quotes</div>
+                </div>
+                <div class="settings-action">
+                  <i class="bi bi-toggle-off toggle" id="quote" style="font-size: 30px;"></i>
+                </div>
+              </div>
+              <div class="settings-section remove-padding-border">
+                <div class="settings-desc">
+                  <div class="settings-label">Spotify Widget</div>
+                </div>
+                <div class="settings-action">
+                  <i class="bi bi-toggle-off toggle" id="spotify" style="font-size: 30px;"></i>
+                </div>
+              </div>
+              <div class="settings-section remove-padding-border">
+                <div class="settings-desc">
+                  <div class="settings-label">Weather</div>
+                </div>
+                <div class="settings-action">
+                  <i class="bi bi-toggle-off toggle" id="weather" style="font-size: 30px;"></i>
+                </div>
+              </div>
+              <div class="settings-section remove-padding-border">
+                <div class="settings-desc">
+                  <div class="settings-label">Tasks</div>
+                </div>
+                <div class="settings-action">
+                  <i class="bi bi-toggle-off toggle" id="tasks" style="font-size: 30px;"></i>
+                </div>
+              </div>
+            </div>
+            <div id="backgrounds-section" style="display: none;">
+              <p class="small-text" style="margin-bottom: 10px; text-align: left; font-size: 15px;">A random image from your collection will be set as
+                background
+                everytime</p>
+              <input type="file" id="file" style="float: left;" accept="image/*" hidden multiple />
+              <br>
+
+              <label style="float: left;" for="file" class="file-upload"><i class="bi bi-upload" style="margin-right: 10px;"></i>Add
+                Images</label>
+                <br>
+                <br>
+                <br>
+                <br>
+              <div id="images" style="text-align: left;"></div>
+              <p style="font-size: 15px;padding: 10px; ">
+                Our Daily Quotes are provided by <a href="https://zenquotes.io/" target="_blank"
+                  style="color:white !important">ZenQuotes API</a>
+              </p>
+            </div>
+        </center>
+      </div>
     </div>
-  </center>
-
-
-  <div id="settings-container" class="card">
-    <h1 id="settings-title">Settings<i class="bi bi-x-circle" style="color: white; float: right;  border-radius: 50%;"
-       ></i></h1>
-    <label for="spotify-url" class="input-label">Spotify Widget URL</label>
-    <input type="text" id="spotify-url" placeholder="Enter Spotify URL">
-    <p class="small-text">Add a link to any Spoify track, playlist, album etc. To play full tracks or private playlists,
-      you must be logged in to Spotify on this browser
-    </p>
-    <br>
-    <br>
-    <label class="input-label">Backgrounds</label>
-    <p class="small-text" style="margin-bottom: 10px;">A random image from your collection will be set as background
-      everytime</p>
-    <input type="file" id="file" accept="image/*" hidden multiple />
-    <br>
-
-    <label for="file" class="file-upload"><i class="bi bi-upload" style="margin-right: 10px;"></i>Add Images</label>
-    <div id="images"></div>
-    <p style="font-size: 15px;padding: 10px; ">
-      Our Daily Quotes are provided by <a href="https://zenquotes.io/" target="_blank"
-        style="color:white !important">ZenQuotes API</a>
-    </p>
-
   </div>
 
-</div>
+  </div>
 
 </body>
 <style>
+  .settings-parent {
+    position: fixed;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    top: -100%;
+    transition: top 0.3s ease-in-out;
+
+  }
+
+  .settings-tab {
+    cursor: pointer;
+    font-size: 19px;
+    display: inline-block;
+    padding: 10px 15px;
+    margin: 0 5px;
+    font-weight: normal;
+  }
+
+  .settings-tab.active {
+    color: #00C0A3;
+    font-weight: bold;
+    border-bottom: solid #00C0A3 2px;
+  }
+
+  .remove-padding-border {
+    padding: 0 !important;
+    border: 0 !important;
+  }
+
+  .settings-section {
+    padding: 20px 0;
+    margin-top: 10px;
+    border-bottom: solid rgba(255, 255, 255, 0.3) 1px;
+    display: flex;
+    flex-direction: row;
+  }
+
+  .settings-label {
+    font-size: 16px;
+
+  }
+
   .settings {
     position: fixed;
     top: 20px;
@@ -88,6 +217,34 @@
     color: white;
     cursor: pointer;
 
+  }
+
+  .settings-desc {
+    width: 140%;
+    padding: 0 20px 0 0;
+    display: inline-block;
+    text-align: left;
+  }
+
+  .settings-desc i {
+    margin-right: 5px;
+  }
+
+  .settings-action select {
+    float: left;
+    padding: 7px 15px;
+    border: 0;
+    border-radius: 25px;
+    font-family: Poppins;
+    font-size: 16px;
+
+    background: rgba(255, 255, 255, 0.1);
+    color: white;
+  }
+
+  .settings-action select>option {
+    background: rgba(0, 0, 0, 0.8);
+    color: white;
   }
 
   #weather {
@@ -102,23 +259,24 @@
 
   #settings-container {
     padding: 10px 30px;
-    position: fixed;
+    text-align: left;
     width: calc(100vw - 100px);
     height: calc(100vh - 100px);
-    top: -100%;
-    transition: top 0.3s ease-in-out;
-    left: 50%;
+    background-color: rgba(0, 0, 0, 0.9);
     border-radius: 50px;
     overflow-y: scroll;
-    transform: translate(-50%, -50%);
     border: 0 !important;
   }
 
   #settings-title {
-    margin-bottom: 40px;
-    padding-bottom: 20px;
-    font-size: 28px;
-    border-bottom: solid white 1px;
+    margin-bottom: 45px;
+    padding: 0 20px;
+  }
+
+  .settings-action {
+    width: 100%;
+    height: 100%;
+    margin: auto 10px;
   }
 
   .input-label {
@@ -129,16 +287,15 @@
   }
 
   #spotify-url {
-    width: calc(100% - 30PX);
-    padding: 15px;
-    margin-top: 5px;
-    font-size: 17px;
-    margin-bottom: 15px;
-    border: solid rgba(255, 255, 255, 0.5) 2px;
-    background: rgba(0, 0, 0, 0.2);
+    width: 100%;
+    ;
+    padding: 10px;
+    font-size: 16px;
+    background: rgba(255, 255, 255, 0.1);
     outline: 0;
     color: white;
     border-radius: 25px;
+    border: 0;
     font-family: 'Poppins', sans-serif;
   }
 
@@ -147,7 +304,7 @@
     font-size: 16px;
     border-radius: 30px;
     background: rgba(0, 0, 0, 0.2);
-    border: solid rgba(255, 255, 255, 0.5) 2px;
+    border: solid #00C0A3 2px;
     padding: 8px 16px;
     cursor: pointer;
   }
@@ -155,7 +312,7 @@
   .small-text {
     font-size: 13px;
     color: rgba(255, 255, 255, 0.8);
-    margin: 0;
+    margin: 10px 0 0 0;
   }
 
   body {
@@ -177,7 +334,8 @@
     background-color: red;
   }
 
-  .arrow-left i,.arrow-right i{
+  .arrow-left i,
+  .arrow-right i {
     position: relative;
     top: -7px;
     font-size: 17px;
@@ -248,7 +406,7 @@
 
   }
 
-  #search {
+  #search-bar {
     display: inline;
     outline: none;
     margin: 0;
@@ -263,7 +421,7 @@
 
   }
 
-  #search::placeholder {
+  #search-bar::placeholder {
     color: white;
     opacity: 0.8;
   }
@@ -339,7 +497,7 @@
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
-    text-shadow: 2px 2px 5px rgba(0,0,0,0.3);
+    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
   }
 
   .quote_mark {
@@ -381,7 +539,7 @@
     line-height: 1.8;
     color: white;
     letter-spacing: 1.5px;
-    text-shadow: 2px 2px 5px rgba(0,0,0,0.3);
+    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
 
   }
 
@@ -395,7 +553,7 @@
     display: inline-block;
     padding: 10px 25px;
     margin-top: 30px;
-    text-shadow: 2px 2px 5px rgba(0,0,0,0.6);
+    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.6);
     font-weight: 700;
     color: white;
     font-weight: 700;
@@ -458,23 +616,25 @@
 
   }
 
-  ul li .bi-app, ul li .bi-check2{
+  ul li .bi-app,
+  ul li .bi-check2 {
     margin: 2px 10px !important;
     height: 19.4px;
   }
 
-  ul li .bi-x{
+  ul li .bi-x {
     height: 23px;
-   
-  } 
 
-  ul li .bi-x::before{
+  }
+
+  ul li .bi-x::before {
     position: relative;
     top: -3.5px;
-   
-  } 
 
-  ul li .bi-app::before, ul li .bi-check2::before{
+  }
+
+  ul li .bi-app::before,
+  ul li .bi-check2::before {
     position: relative;
     top: -2.7px;
   }
