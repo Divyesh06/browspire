@@ -1,4 +1,74 @@
 images_div = document.getElementById("images")
+toggles = document.getElementsByClassName("toggle");
+preferences = document.getElementById("preferences");
+backgrounds=document.getElementById("backgrounds");
+
+preferences.addEventListener("click", function () {
+    backgrounds.classList.remove("active");
+    preferences.classList.add("active");
+    document.getElementById("preferences-section").style.display = "block";
+    document.getElementById("backgrounds-section").style.display = "none";
+});
+
+backgrounds.addEventListener("click", function () {
+    preferences.classList.remove("active");
+    backgrounds.classList.add("active");
+    document.getElementById("preferences-section").style.display = "none";
+    document.getElementById("backgrounds-section").style.display = "block";
+});
+
+changes_made = false;
+
+for (let i = 0; i < toggles.length; i++) {
+    toggles[i].parentElement.style.scale=1.4
+    toggles[i].addEventListener("click", toggle);
+}
+
+function toggle(e) {
+    target=e.target;
+    if (target.className.includes("toggle-on")) {
+        target.className = target.className.replace("toggle-on", "toggle-off");
+        target.style.color="white"
+    }
+    else {
+        target.className = target.className.replace("toggle-off", "toggle-on");
+        target.style.color="#00C0A3"
+    }
+    store_toggles();
+}
+
+function store_toggles() {
+    
+    toggles_string = "";
+    toggles = document.getElementsByClassName("toggle");
+    for (let i = 0; i < toggles.length; i++) {
+        if (toggles[i].className.includes("toggle-on")) {
+            toggles_string += toggles[i].id+" ";
+
+        }
+    }
+    toggle_widgets(toggles_string)
+    chrome.storage.sync.set({ "toggles": toggles_string });
+    
+}
+
+function load_toggles() {
+    chrome.storage.sync.get("toggles", function (toggles_string) {
+        for (let i = 0; i < toggles.length; i++) {
+            if (toggles_string.toggles.includes(toggles[i].id)) {
+                toggles[i].className = toggles[i].className.replace("toggle-off", "toggle-on");
+                
+                toggles[i].style.color="#00C0A3"
+            }
+            else {
+                toggles[i].className = toggles[i].className.replace("toggle-on", "toggle-off");
+                toggles[i].style.color="white"
+            }
+        }
+    });
+}
+
+load_toggles();
 
 function load_images(images) {
 
