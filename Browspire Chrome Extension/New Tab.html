@@ -1,462 +1,733 @@
-row = 1;
-column = 1;
-current_scroll = 0;
-block_scroll = false;
-links = document.getElementsByClassName("links")[0];
-total_capacity = 0;
-search = document.getElementById("search-bar");
-search_container = document.getElementsByClassName("search-container")[0];
-clock = document.getElementById("time")
-spotify_embed = document.getElementsByClassName("spotify-embed")[0];
-todo_data = [];
-x = 0.1
-spotify_input = document.getElementById("spotify-url");
-weather = document.getElementById("weather");
-arrow_left = document.getElementsByClassName("arrow-left")[0];
-arrow_right = document.getElementsByClassName("arrow-right")[0];
-search_engine_dropdown = document.getElementById("search-engine");
+<!DOCTYPE html>
+<meta charset="UTF-16" />
+<title>New Tab</title>
 
-search_engine_dropdown.addEventListener("change", function () {
-  chrome.storage.sync.set({ search_engine: search_engine_dropdown.value });
-  search.placeholder = `Search Bookmarks or ${search_engine_dropdown.value}`;
-});
+<body>
+  <script src="confetti.js"></script>
+  <div id="wrapper" style="padding: 8px;">
+    <div class="settings">
+      <i class="bi bi-gear-fill"></i>
+      &nbsp;Settings
+    </div>
+    <div id="date">
+      Date
+    </div>
+    <iframe class="spotify-embed card" width="25%" height="152px" frameborder="0" allowfullscreen=""
+      allow="autoplay; clipboard-write; encrypted-media; picture-in-picture" loading="lazy"></iframe>
 
-//Implement data in chrome.storage if first time
-chrome.storage.sync.get("first_time", async function (first_time) {
-  if (first_time.first_time != false) {
-    chrome.storage.sync.set({
-      todo_data: [
-        {
-          text: "Add your first task",
-          checked: false,
-          href: null
-        }
-      ]
-    });
-    load_todo();
-    images = ['akEETP3ok.jpg', '1vUgQYbYb.jpg', '7DhxGMVJE.jpg', '7N0rGe1C9h.jpg', 'KUgTjNyQO.jpg', 'Gc8jdjBJA.jpg', 'PTgo9MCT5.jpg', 'vubPE3_Bo.jpg', 'h0N3RLf2w.jpg', '5CDkh2yOr.jpg', '4G2DyOzsC.jpg', 'feVkTAG8m.jpg', 'sHKz4zl4I.jpg', 'EOWvpMddA.jpg', 'clXDyHSdg.jpg', 'J4zsNrNIT.jpg', 'QxcPxRLn1.jpg']
-    chrome.storage.sync.set({ images: images });
-    load_images(images);
-    chrome.storage.sync.set({ spotify_link: "https://open.spotify.com/playlist/37i9dQZF1DWWQRwui0ExPn?si=938c791d26c34193" });
-    chrome.storage.sync.set({ first_time: false });
-    chrome.storage.sync.set({ search_engine: "Google"});
-    chrome.storage.sync.set({ toggles: "search quote spotify weather tasks" });
-    load_toggles();
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <center>
+      <div id="clock">
+        <div id="time"></div>
 
+      </div>
+      <div id="weather" class="card">Loading Weather Data</div>
+    </center>
+    <div class="quote card">
+      <div class="quote_mark">&#8220</div>
+      <div class="quote_text">Generating a fresh quote...</div>
+      <div class="quote_mark right_mark">&#8221</div>
+    </div>
+
+    <div class="todo card">
+      <div id="myDIV" class="header" style="background-color: rgba(0,0,0,0.1); border-radius: 25px 25px 0 0;">
+        <h1 style="margin: 5px;">My Tasks</h1>
+      </div>
+
+      <ul id="myUL"></ul>
+      <button class="addBtn"><i class="fa bi-plus"></i> Add Task</button>
+    </div>
+    <center>
+      <div class="card search-container">
+        <i class="bi bi-search"></i>
+        <input type="text" id="search-bar" placeholder="Search Bookmarks" autofocus />
+      </div>
+      <btn class="arrow-left card"><i class="bi bi-chevron-left"></i></btn>
+      <btn class="arrow-right card"><i class="bi bi-chevron-right"></i></btn>
+      <div class="links">
+      </div>
+    </center>
+
+    <div class="settings-parent">
+      <div id="settings-container" class="card">
+        <h1 id="settings-title">
+          <div class="settings-tab active" id="preferences"><i class="bi bi-gear-fill"></i> &nbsp;Preferences</div>
+          <div class="settings-tab" id="backgrounds"><i class="bi bi-image"></i> &nbsp;Backgrounds</div>
+          <i class="bi bi-x-circle" style="float: right" id="close-settings"></i>
+        </h1>
+
+        <center>
+          <div class="settings-body" style="max-width: 70vw">
+            <div id="preferences-section">
+              <div class="settings-section">
+                <div class="settings-desc">
+                  <div class="settings-label"><i class="bi bi-spotify"></i> Spotify Widget URL
+                    <p class="small-text">Add a link to any Spoify track, playlist, album etc. To play full tracks or
+                      private
+                      playlists,
+                      you must be logged in to Spotify on this browser
+                    </p>
+                  </div>
+                </div>
+                <div class="settings-action">
+                  <input type="text" id="spotify-url" placeholder="Enter Spotify URL">
+                </div>
+              </div>
+              <div class="settings-section">
+                <div class="settings-desc">
+                  <div class="settings-label"><i class="bi bi-search"></i> Search Bar Engine
+                    <p class="small-text">Specify which search engine to use for the search bar</p>
+                    </p>
+                  </div>
+                </div>
+                <div class="settings-action">
+                  <select id="search-engine">
+                    <option value="Google">Google</option>
+                    <option value="Bing">Bing</option>
+                    <option value="DuckDuckGo">DuckDuckGo</option>
+                    <option value="Brave">Brave</option>
+                  </select>
+                </div>
+              </div>
+              <div class="settings-section" style="border: 0; margin-bottom: 15px; zoom: 1.2">
+                <div class="settings-desc">
+                  <div class="settings-label"><b><i class="bi bi-toggles"></i> Toggle Widgets</b></div>
+                </div>
+              </div>
+              <div class="settings-section remove-padding-border">
+                <div class="settings-desc">
+                  <div class="settings-label ">Search Bar</div>
+                </div>
+                <div class="settings-action">
+                  <i class="bi bi-toggle-off toggle" id="search" style="font-size: 30px;"></i>
+                </div>
+              </div>
+              <div class="settings-section remove-padding-border">
+                <div class="settings-desc">
+                  <div class="settings-label">Daily Quotes</div>
+                </div>
+                <div class="settings-action">
+                  <i class="bi bi-toggle-off toggle" id="quote" style="font-size: 30px;"></i>
+                </div>
+              </div>
+              <div class="settings-section remove-padding-border">
+                <div class="settings-desc">
+                  <div class="settings-label">Spotify Widget</div>
+                </div>
+                <div class="settings-action">
+                  <i class="bi bi-toggle-off toggle" id="spotify" style="font-size: 30px;"></i>
+                </div>
+              </div>
+              <div class="settings-section remove-padding-border">
+                <div class="settings-desc">
+                  <div class="settings-label">Weather</div>
+                </div>
+                <div class="settings-action">
+                  <i class="bi bi-toggle-off toggle" id="weather" style="font-size: 30px;"></i>
+                </div>
+              </div>
+              <div class="settings-section remove-padding-border">
+                <div class="settings-desc">
+                  <div class="settings-label">Tasks</div>
+                </div>
+                <div class="settings-action">
+                  <i class="bi bi-toggle-off toggle" id="tasks" style="font-size: 30px;"></i>
+                </div>
+              </div>
+            </div>
+            <div id="backgrounds-section" style="display: none;">
+              <p class="small-text" style="margin-bottom: 10px; text-align: left; font-size: 15px;">A random image from your collection will be set as
+                background
+                everytime</p>
+              <input type="file" id="file" style="float: left;" accept="image/*" hidden multiple />
+              <br>
+
+              <label style="float: left;" for="file" class="file-upload"><i class="bi bi-upload" style="margin-right: 10px;"></i>Add
+                Images</label>
+                <br>
+                <br>
+                <br>
+                <br>
+              <div id="images" style="text-align: left;"></div>
+              <p style="font-size: 15px;padding: 10px; ">
+                Our Daily Quotes are provided by <a href="https://zenquotes.io/" target="_blank"
+                  style="color:white !important">ZenQuotes API</a>
+              </p>
+            </div>
+        </center>
+      </div>
+    </div>
+  </div>
+
+  </div>
+
+</body>
+<style>
+  .settings-parent {
+    position: fixed;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    top: -100%;
+    transition: top 0.3s ease-in-out;
 
   }
 
-  chrome.storage.sync.get("toggles", function (toggles) {
-    init(toggles.toggles)
-  })
-});
-
-function init(toggle_string) {
-
-  arrow_left.style.marginTop = `${(links.offsetHeight) / 2 + 17}px`
-  arrow_right.style.marginTop = `${(links.offsetHeight) / 2 + 17}px`
-  arrow_left.style.left = `${links.offsetLeft}px`
-  arrow_right.style.right = `${links.offsetLeft}px`
-  arrow_left.style.display = "block"
-  arrow_right.style.display = "block"
-  chrome.storage.sync.get("spotify_link", function (spotify_link) {
-    spotify_input.value = spotify_link.spotify_link;
-    load_spotify_widget(spotify_link.spotify_link);
-    toggle_widgets(toggle_string)
-  });
-
-
-  spotify_input.addEventListener("input", function () {
-    chrome.storage.sync.set({ spotify_link: spotify_input.value });
-    load_spotify_widget(spotify_input.value);
-    toggle_widgets(toggle_string)
-  });
-
-  toggle_widgets(toggle_string)
-  links.addEventListener("wheel", scroll, { passive: false });
-  search.addEventListener("keydown", search_internet);
-
-  chrome.storage.sync.get("images", function (images) {
-    images = images.images
-    random_background = Math.floor(Math.random() * images.length)
-    document.body.style.backgroundImage = `url(https://ik.imagekit.io/browspire/background_${images[random_background]})`
-  })
-
-  function convertFormat(time) {
-    let format = "PM";
-    if (time <= 12) {
-      format = "AM";
-    }
-    return format;
+  .settings-tab {
+    cursor: pointer;
+    font-size: 19px;
+    display: inline-block;
+    padding: 10px 15px;
+    margin: 0 5px;
+    font-weight: normal;
   }
 
-  function checkTime(time) {
-    if (time > 12) {
-      time = time - 12;
-    }
-    if (time === 0) {
-      time = 12;
-    }
-    return time;
+  .settings-tab.active {
+    color: #00C0A3;
+    font-weight: bold;
+    border-bottom: solid #00C0A3 2px;
   }
 
-  function addZero(time) {
-    if (time < 10) {
-      time = "0" + time;
-    }
-    return time;
+  .remove-padding-border {
+    padding: 0 !important;
+    border: 0 !important;
   }
 
-  function showTime() {
-    let date = new Date();
-    let hours = date.getHours(); //0-23
-    let minutes = date.getMinutes(); //0 - 59
-
-    let formatHours = convertFormat(hours);
-
-    hours = checkTime(hours);
-
-    hours = addZero(hours);
-    minutes = addZero(minutes);
-
-    clock.innerHTML = `${hours} : ${minutes}  ${formatHours}`;
+  .settings-section {
+    padding: 20px 0;
+    margin-top: 10px;
+    border-bottom: solid rgba(255, 255, 255, 0.3) 1px;
+    display: flex;
+    flex-direction: row;
   }
 
-  showTime();
-
-  date_div = document.getElementById("date");
-
-  function showDate() {
-    //Date div innerhtml should be like this format: 1 January, 2021
-
-    let date = new Date();
-    let day = date.getDate();
-    let month = date.getMonth();
-    let year = date.getFullYear();
-    let day_name = date.getDay();
-    let day_names = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
-
-    day_name = day_names[day_name]
-
-    let months = [
-      "January",
-      "Febuary",
-      "March",
-      "April",
-      "May",
-      "June",
-      "July",
-      "August",
-      "September",
-      "October",
-      "November",
-    ];
-
-    date_div.innerHTML = `<div style="font-size: 19px; font-weight: 700;">${day_name}</div>${day} ${months[month]}, ${year}`;
+  .settings-label {
+    font-size: 16px;
 
   }
 
-  showDate();
+  .settings {
+    position: fixed;
+    top: 20px;
+    right: 25px;
+    opacity: 0.7;
+    font-size: 17px;
+    color: white;
+    cursor: pointer;
 
-  setInterval(showTime, 1000);
-  setInterval(showDate, 1000);
-
-  //Show Weather
-
-  function get_ip(callback) {
-    fetch("https://api.ipify.org?format=json").then(function (response) {
-      response.json().then(function (data) {
-        callback(data.ip);
-      });
-    });
   }
 
-  weather_api_key = "e46451d9cd2d41df95c112245230710"
-  weather_api_url = `https://api.weatherapi.com/v1/current.json?key=${weather_api_key}&q=`
-
-  function show_weather(ip) {
-    fetch(weather_api_url + ip).then(function (response) {
-      response.json().then(function (data) {
-        icon = document.createElement("img");
-        icon.style.width = "25px";
-        icon.style.height = "25px";
-        icon.style.marginRight = "12px";
-        icon.src = 'https:' + data.current.condition.icon;
-        weather.innerHTML = "";
-        weather.appendChild(icon);
-        weather.innerHTML += `<span style="position:relative;top:-5px">${data.current.condition.text} &nbsp;${data.current.temp_c}&#176C</span>`;
-        //Store in chrome.storage
-        chrome.storage.local.set({ weather: weather.innerHTML });
-      });
-    });
+  .settings-desc {
+    width: 140%;
+    padding: 0 20px 0 0;
+    display: inline-block;
+    text-align: left;
   }
 
-  chrome.storage.local.get("weather", function (data) {
-    if (data.weather) {
-      weather.innerHTML = data.weather;
-    }
-    get_ip(show_weather);
-
-  });
-
-
-
-  function search_internet(event) {
-    if (event.keyCode === 13) {
-      placeholder = search.placeholder
-      if (placeholder.includes("Google")) {
-        window.open(`https://www.google.com/search?q=${search.value}`);
-      }
-      else if (placeholder.includes("Bing")) {
-        window.open(`https://www.bing.com/search?q=${search.value}`);
-      }
-
-      else if (placeholder.includes("Brave")) {
-        window.open(`https://search.brave.com/search?q=${search.value}`);
-      }
-
-      else if (placeholder.includes("DuckDuckGo")) {
-        window.open(`https://duckduckgo.com/?q=${search.value}`);
-      }
-
-    }
-  };
-
-
-  function scroll(event) {
-    if (Math.abs(event.deltaX) > Math.abs(event.deltaY)) {
-      event.deltaY = event.deltaX
-    }
-
-    event.preventDefault();
-    if (block_scroll) {
-      return;
-    }
-
-    else {
-      block_scroll = true;
-      setTimeout(function () {
-        block_scroll = false;
-      }, 100)
-      if (event.deltaY < -10) {
-        scroll_left();
-      } else if (event.deltaY > 10) {
-        scroll_right();
-      }
-    }
+  .settings-desc i {
+    margin-right: 5px;
   }
 
-  function scroll_left() {
-    current_scroll -= Math.floor(total_capacity / 2);
+  .settings-action select {
+    float: left;
+    padding: 7px 15px;
+    border: 0;
+    border-radius: 25px;
+    font-family: Poppins;
+    font-size: 16px;
 
-    if (current_scroll < 0) {
-      current_scroll = 0;
-    }
-
-    links.children[current_scroll].scrollIntoView({
-      behavior: "smooth",
-      inline: "start",
-      block: "nearest",
-    });
+    background: rgba(255, 255, 255, 0.1);
+    color: white;
   }
 
-  arrow_left.addEventListener("click", scroll_left)
-
-  function scroll_right() {
-    current_scroll += Math.floor(total_capacity / 2);
-
-    if (current_scroll > links.children.length - 1) {
-      current_scroll = links.children.length - 1;
-    }
-
-    links.children[current_scroll].scrollIntoView({
-      behavior: "smooth",
-      inline: "start",
-    });
+  .settings-action select>option {
+    background: rgba(0, 0, 0, 0.8);
+    color: white;
   }
 
-  arrow_right.addEventListener("click", scroll_right);
-
-  if (localStorage.getItem("date") != new Date().getDate()) {
-    fetch(`https://zenquotes.io/api/today/key`)
-      .then((response) => response.json())
-      .then((data) => {
-        quote = data[0].q;
-        document.getElementsByClassName("quote_text")[0].innerHTML = quote;
-        localStorage.setItem("quote", quote);
-        localStorage.setItem("date", new Date().getDate());
-      });
-  } else {
-    document.getElementsByClassName("quote_text")[0].innerHTML =
-      localStorage.getItem("quote");
+  #weather {
+    margin-top: 5px;
+    font-size: 16px;
+    width: fit-content;
+    padding: 10px 20px;
+    font-weight: 400;
+    color: rgba(255, 255, 255, 0.8);
+    background-color: rgba(0, 0, 0, 0.3);
   }
 
-  async function getAllBookmarks(bookmarkTreeNode) {
-    if (!bookmarkTreeNode.children) {
-      return [bookmarkTreeNode];
-    }
+  #settings-container {
+    padding: 10px 30px;
+    text-align: left;
+    width: calc(100vw - 100px);
+    height: calc(100vh - 100px);
+    background-color: rgba(0, 0, 0, 0.9);
+    border-radius: 50px;
+    overflow-y: scroll;
+    border: 0 !important;
+  }
 
-    const bookmarkPromises = bookmarkTreeNode.children.map(async (childNode) => {
-      if (childNode.url) {
-        return childNode;
-      } else {
-        return getAllBookmarks(childNode);
-      }
-    });
+  #settings-title {
+    margin-bottom: 45px;
+    padding: 0 20px;
+  }
 
-    const bookmarkNodes = await Promise.all(bookmarkPromises);
-    return bookmarkNodes.flat();
+  .settings-action {
+    width: 100%;
+    height: 100%;
+    margin: auto 10px;
+  }
+
+  .input-label {
+    font-size: 22px;
+    font-weight: 700;
+    display: block;
+    margin-bottom: 12px;
+  }
+
+  #spotify-url {
+    width: 100%;
+    ;
+    padding: 10px;
+    font-size: 16px;
+    background: rgba(255, 255, 255, 0.1);
+    outline: 0;
+    color: white;
+    border-radius: 25px;
+    border: 0;
+    font-family: 'Poppins', sans-serif;
+  }
+
+  .file-upload {
+    display: inline-block;
+    font-size: 16px;
+    border-radius: 30px;
+    background: rgba(0, 0, 0, 0.2);
+    border: solid #00C0A3 2px;
+    padding: 8px 16px;
+    cursor: pointer;
+  }
+
+  .small-text {
+    font-size: 13px;
+    color: rgba(255, 255, 255, 0.8);
+    margin: 10px 0 0 0;
+  }
+
+  body {
+    margin: 0;
+    height: 100vh;
+    background-position: center;
+    font-family: 'Poppins', sans-serif;
+    color: white;
+  }
+
+  .arrow-left {
+    display: none;
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    position: absolute;
+    transform: translateY(-50%);
+    font-size: 30px;
+    background-color: red;
+  }
+
+  .arrow-left i,
+  .arrow-right i {
+    position: relative;
+    top: -7px;
+    font-size: 17px;
   }
 
 
-  function generate_bookmarks(bookmarks) {
-    document.getElementsByClassName("links")[0].innerHTML = "";
-    row = 1;
-    mode = 1
-    column = 1;
-    total_columns = bookmarks.length
-    total_capacity = Math.floor(links.offsetWidth / 90)
-    current_scroll = 0
-    if (total_columns <= total_capacity * 2) {
-      mode = 2
-      arrow_left.style.display = "none"
-      arrow_right.style.display = "none"
-    }
-    else {
-      arrow_left.style.display = "block"
-      arrow_right.style.display = "block"
-    }
-    links.style.width = `${Math.floor(total_capacity) * 90}px`
-
-    search_container.style.width = links.style.width
-    bookmarks.forEach((bookmark) => {
-      links.innerHTML += `
-<a href="${bookmark.url}" style="grid-row: ${row};"target="_blank">
-  <img class="card" src="https://www.google.com/s2/favicons?domain=${bookmark.url}&sz=64"/>
-  <br />
-  <div style="color:white">${bookmark.title}</div>
-</a>`;
-      if (mode == 1) {
-        if (row == 1) {
-          row = 2;
-        }
-        else {
-          row = 1;
-        }
-      }
-      else {
-        if (column >= total_capacity) {
-          column = 1;
-          row += 1;
-        }
-        else {
-          column += 1;
-        }
-      }
-    });
+  .arrow-right {
+    display: none;
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    position: absolute;
+    transform: translateY(-50%);
+    font-size: 30px;
+    background-color: red;
   }
 
 
-  chrome.bookmarks.getTree(async (bookmarkTreeNodes) => {
-    const allBookmarks = await getAllBookmarks(bookmarkTreeNodes[0]);
-    allBookmarks.sort(function (a, b) {
-      if (a.dateAdded > b.dateAdded) {
-        return -1;
-      } else if (a.dateAdded < b.dateAdded) {
-        return 1;
-      } else {
-        return 0;
-      }
-    });
-
-    chrome.storage.sync.get("search_engine", function (search_engine) {
-      search.placeholder = `Search Bookmarks or ${search_engine.search_engine}`;
-      search_engine_dropdown.value = search_engine.search_engine;
-    })
-
-    search.oninput = function () {
-
-      function search_bookmarks() {
-        if (search.value.trim() == "") {
-          generate_bookmarks(allBookmarks);
-        }
-
-        else
-          chrome.bookmarks.search(search.value, function (results) {
-            generate_bookmarks(results);
-          });
-      };
-      setTimeout(search_bookmarks, 10)
-    }
-
-    generate_bookmarks(allBookmarks);
-  });
-
-  settings_container = document.getElementsByClassName("settings-parent")[0];
-
-  function remove_settings() {
-    settings_container.style.top = "-100%";
-    settings_btn.style.display = "block";
-  }
-  document.getElementById("close-settings").addEventListener("click", remove_settings);
-
-  settings_btn = document.getElementsByClassName("settings")[0];
-
-  settings_btn.addEventListener("click", function () {
-    settings_container.style.top = "0%";
-    settings_btn.style.display = "none";
-  });
-}
-
-function toggle_widgets(toggle_string) {
-  if (!toggle_string.includes("search")) {
-    search_container.style.display = "none";
+  .card {
+    backdrop-filter: blur(5px) saturate(170%) brightness(1.2);
+    -webkit-backdrop-filter: blur(5px) saturate(170%) brightness(1.2);
+    background-color: var(--main-color);
+    border-radius: 25px;
+    box-shadow: inset 1px 3px 3px rgba(255, 255, 255, .25), 0 0 10px rgba(0, 0, 0, .15) !important;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.15) !important;
+    border-right: 1px solid rgba(255, 255, 255, 0.15) !important;
   }
 
-  else {
-    search_container.style.display = "block";
+  :root {
+    --main-color: rgba(0, 0, 0, 0.5);
+
   }
 
-  if (!toggle_string.includes("quote")) {
-    document.getElementsByClassName("quote")[0].style.display = "none";
+  #images {
+    margin-top: 15px;
+    flex-wrap: wrap;
   }
 
-  else {
-    document.getElementsByClassName("quote")[0].style.display = "block";
+  #images img {
+    width: auto;
+    height: 200px;
+    object-fit: cover;
+
   }
 
-  if (!toggle_string.includes("weather")) {
-    weather.style.display = "none";
+  #images .img-container {
+    margin: 10px;
+    display: inline-block;
+    width: auto;
+    height: 200px;
   }
 
-  else {
-    weather.style.display = "block";
+
+  .links {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(90px, 1fr));
+    grid-template-rows: repeat(2, 1fr);
+    grid-gap: 0px;
+    align-items: center;
+    justify-items: center;
+    width: 36vw;
+    bottom: 0;
+    margin-top: 15vh;
+    height: 280px;
+    overflow-x: hidden;
+    overflow-y: hidden;
+    padding-bottom: 10px;
+
   }
 
-  if (!toggle_string.includes("tasks")) {
-    document.getElementsByClassName("todo")[0].style.display = "none";
+  #search-bar {
+    display: inline;
+    outline: none;
+    margin: 0;
+    margin-top: 3px;
+    border: none;
+    border-radius: 0;
+    width: calc(100% - 40px);
+    float: left;
+    background: none;
+    color: white;
+    font-size: 18px;
+
   }
 
-  else {
-    document.getElementsByClassName("todo")[0].style.display = "block";
+  #search-bar::placeholder {
+    color: white;
+    opacity: 0.8;
   }
 
-  if (!toggle_string.includes("spotify")) {
-    spotify_embed.style.display = "none";
+
+  .search-container {
+    position: absolute;
+    width: 36vw;
+    color: white;
+    font-size: 18px;
+    padding: 15px 20px;
+    border-radius: 30px;
+    left: 50%;
+    transform: translate(-50%, 0);
+    margin-top: -50px;
   }
 
-  else {
-    spotify_embed.style.display = "block";
+  .search-container i {
+    margin-right: 10px;
+    display: inline;
+    float: left;
+    cursor: default;
   }
 
-}
 
-function load_spotify_widget(spotify_url) {
-  if (spotify_url) {
-    spotify_embed.style.display = "block";
-    spotify_embed.src = spotify_url.replace("https://open.spotify.com", "https://open.spotify.com/embed") + `&theme=0`
+  h1 {
+    color: white;
   }
-  else {
-    spotify_embed.style.display = "none";
+
+  .links img {
+    height: 40px;
+    width: 40px;
+    border-radius: 15px;
+    margin-bottom: 8px;
+    margin-top: 8px;
+    opacity: 0.8;
+    padding: 10px;
   }
-}
+
+  ::-webkit-scrollbar {
+    width: 5px;
+    border-radius: 50%;
+    height: 5px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: transparent;
+    border-radius: 250px
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.3);
+    border-radius: 250px
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: rgba(255, 255, 255, 0.5);
+  }
+
+  .links a {
+    display: inline-block;
+    width: 60px;
+    margin: 15px;
+    height: 60px;
+    text-overflow: ellipsis;
+    font-size: 14px;
+    color: white;
+    text-decoration: none;
+  }
+
+  .links div {
+    text-overflow: ellipsis;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
+  }
+
+  .quote_mark {
+    font-family: Georgia;
+    font-size: 70px;
+    opacity: 0.5;
+    height: 35px;
+  }
+
+  .right_mark {
+    float: right;
+  }
+
+  .quote_text {
+    margin: 2px 10%;
+  }
+
+  .quote {
+    font-size: 20px;
+    color: white;
+    position: fixed;
+    min-height: 110px;
+    max-height: 80vh;
+    bottom: 200px;
+    right: 0px;
+    width: 25%;
+    background-color: var(--main-color);
+    box-shadow: -1px 15px 30px -12px black;
+    border-radius: 25px;
+    margin: 10px;
+    padding: 7px;
+  }
+
+  #date {
+    position: fixed;
+    top: 30px;
+    left: 25px;
+    font-size: 16px;
+    line-height: 1.8;
+    color: white;
+    letter-spacing: 1.5px;
+    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
+
+  }
+
+  #clock {
+    background-color: rgba(0, 0, 0, 0);
+    box-shadow: none !important;
+    backdrop-filter: none !important;
+    font-size: 60px;
+    letter-spacing: 2px;
+    border-radius: 20px;
+    display: inline-block;
+    padding: 10px 25px;
+    margin-top: 30px;
+    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.6);
+    font-weight: 700;
+    color: white;
+    font-weight: 700;
+
+  }
+
+  body {
+    background: #262626;
+    background-repeat: no-repeat;
+    background-size: cover;
+  }
+
+  .spotify-embed {
+    position: fixed;
+    right: 0;
+    bottom: 0;
+    border-radius: 25px;
+    padding: 7px;
+    opacity: 0.9;
+    box-shadow: -1px 15px 30px -12px black;
+    margin: 10px;
+    background-color: var(--main-color);
+  }
+
+
+  .todo {
+    position: fixed;
+    bottom: 15px;
+    width: 25%;
+    background-color: var(--main-color);
+    box-shadow: -1px 15px 30px -12px black;
+    border-radius: 25px;
+    transition: all .3s ease-in-out;
+  }
+
+  /* Remove margins and padding from the list */
+  ul {
+    margin: 0;
+    padding: 0;
+  }
+
+  i {
+    cursor: pointer;
+  }
+
+  /* Style the list items */
+  ul li {
+    list-style-type: none;
+    font-size: 17px;
+    transition: 0.2s;
+    position: relative;
+    /* make the list items unselectable */
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    color: white;
+    border-radius: 25px;
+    padding: 8px;
+
+  }
+
+  ul li .bi-app,
+  ul li .bi-check2 {
+    margin: 2px 10px !important;
+    height: 19.4px;
+  }
+
+  ul li .bi-x {
+    height: 23px;
+
+  }
+
+  ul li .bi-x::before {
+    position: relative;
+    top: -3.5px;
+
+  }
+
+  ul li .bi-app::before,
+  ul li .bi-check2::before {
+    position: relative;
+    top: -2.7px;
+  }
+
+
+  /* Darker background-color on hover */
+
+  ul li p {
+    width: 75%;
+    transition: 0.2s;
+    display: inline-block;
+  }
+
+  ul li:hover {
+    background-color: rgba(0, 0, 0, 0.2);
+  }
+
+  ul li i:hover {
+    box-shadow: 0 0 10px 5px rgba(255, 255, 255, 0.25);
+
+    border-radius: 6px;
+
+  }
+
+  ul li p:hover,
+  ul li p:focus,
+  ul li p:active {
+    outline: none;
+  }
+
+  /* When clicked on, add a background color and strike out text */
+  ul li.checked {
+    opacity: 0.7;
+    outline: none;
+  }
+
+  ul li.checked span:first-child {
+    text-decoration: line-through;
+  }
+
+  /* Style the close button */
+  .close {
+    position: absolute;
+    right: 0;
+    top: 0;
+    font-size: 25px;
+    padding: 8px 20px 10px 20px;
+    border-radius: 25px;
+  }
+
+  .close:hover {
+    background-color: #f44336;
+    color: white;
+  }
+
+  /* Style the header */
+  .header {
+    padding: 15px 20px;
+    font-weight: 700;
+    text-align: left;
+    color: #00feaf !important;
+    border-bottom: solid rgba(255, 255, 255, 0.2) 1px;
+    margin-bottom: 15px;
+
+  }
+
+  /* Clear floats after the header */
+  .header:after {
+    content: "";
+    display: table;
+    clear: both;
+  }
+
+  /* Style the "Add" button */
+  .addBtn {
+    background: transparent;
+    border: none;
+    float: left;
+    text-align: left;
+    font-size: 19px;
+    cursor: pointer;
+    transition: 0.3s;
+    border-radius: 0;
+    color: white;
+    width: 100%;
+    border-radius: 0 0 24px 24px;
+    border-top: solid rgba(255, 255, 255, 0.1) 1px;
+    padding: 18px;
+    text-align: center;
+    margin-top: 15px;
+    font-family: Poppins;
+  }
+</style>
+<script src="popup_todo.js"></script>
+<script src="New Tab.js"></script>
+<script src="settings.js"></script>
