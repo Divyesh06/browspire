@@ -1,8 +1,8 @@
 {  
   "manifest_version": 3, 
-  "name": "Browspire - Custom Homepage & To-Do List",  
-  "description": "Enhance your browsing experience with a custom homepage that matches your vibe and boost your productivity.",  
-  "version": "1.1",
+  "name": "Browspire - The Most Aesthetic homepage" ,  
+  "description": "Enhance your browsing experience with a custom New Tab Page that matches your vibe and boost your productivity.",  
+  "version": "1.5",
   "icons": {
     "16": "Assets/Logo16.png",
     "32": "Assets/Logo32.png",
@@ -18,6 +18,12 @@
     "matches": ["<all_urls>"]
     }
   ],
+  "browser_specific_settings": {
+    "gecko": {
+      "id": "browspire@geeke.app",
+      "strict_min_version": "42.0"
+    }
+  },
   "host_permissions": ["http://*/*", "https://*/*"],
   "permissions": ["bookmarks","storage","tabs"],
   "action": {  

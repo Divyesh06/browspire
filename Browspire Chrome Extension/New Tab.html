@@ -5,10 +5,17 @@
 <body>
   <script src="confetti.js"></script>
   <div id="wrapper" style="padding: 8px;">
-    <div class="settings">
-      <i class="bi bi-gear-fill"></i>
-      &nbsp;Settings
+    <div class="menu">
+      <a href="https://buymeacoffee.com/browspire" target="_blank">
+        <i class="bi bi-heart-fill"></i>
+        &nbsp;Support
+      </a>
+      <div class="settings">
+        <i class="bi bi-gear-fill"></i>
+        &nbsp;Settings
+      </div>
     </div>
+    
     <div id="date">
       Date
     </div>
@@ -90,6 +97,49 @@
                   </select>
                 </div>
               </div>
+              <div class="settings-section">
+                <div class="settings-desc">
+                  <div class="settings-label"><i class="bi bi-thermometer-half"></i> Temperature Unit
+                    <p class="small-text">Specify which temperature unit to use for the weather</p>
+                    </p>
+                  </div>
+                </div>
+                <div class="settings-action">
+                  <select id="temperature-unit">
+                    <option value="C">Celsius °C</option>
+                    <option value="F">Fahrenheit °F</option>
+                  </select>
+                </div>
+              </div>
+              <div class="settings-section">
+                <div class="settings-desc">
+                  <div class="settings-label"><i class="bi bi-calendar-date"></i> Date Format
+                    <p class="small-text">Specify which date format to use</p>
+                    </p>
+                  </div>
+                </div>
+                <div class="settings-action">
+                  <select id="date-format">
+                    <option value="DD MM, YYYY">DD MM, YYYY</option>
+                    <option value="MM DD, YYYY">MM DD, YYYY</option>
+                    <option value="YYYY, MM DD">YYYY, MM DD</option>
+                  </select>
+                </div>
+              </div>
+              <div class="settings-section">
+                <div class="settings-desc">
+                  <div class="settings-label"><i class="bi bi-clock"></i> Time Format
+                    <p class="small-text">Specify which time format to use</p>
+                    </p>
+                  </div>
+                </div>
+                <div class="settings-action">
+                  <select id="time-format">
+                    <option value="12">12-hour</option>
+                    <option value="24">24-hour</option>
+                  </select>
+                </div>
+              </div>
               <div class="settings-section" style="border: 0; margin-bottom: 15px; zoom: 1.2">
                 <div class="settings-desc">
                   <div class="settings-label"><b><i class="bi bi-toggles"></i> Toggle Widgets</b></div>
@@ -135,7 +185,25 @@
                   <i class="bi bi-toggle-off toggle" id="tasks" style="font-size: 30px;"></i>
                 </div>
               </div>
+              <div class="settings-section" style="padding-top: 5px;"></div>
+              <a class="settings-section" href="https://browspire.geeke.app/_/api/contact" target="_blank">
+                <div class="settings-desc">
+                  <div class="settings-label">Contact Us
+                    <p class="small-text">Want to get in touch with us regarding any issues or suggestions? Click here.</p>
+                    </p>
+                  </div>
+                </div>
+              </a>
+              <a class="settings-section" href="https://browspire.geeke.app" target="_blank">
+                <div class="settings-desc">
+                  <div class="settings-label">Visit Website
+                    <p class="small-text">We just released our shiny new website! Check out all our features, updates, details & more!</p>
+                    </p>
+                  </div>
+                </div>
+              </a>
             </div>
+
             <div id="backgrounds-section" style="display: none;">
               <p class="small-text" style="margin-bottom: 10px; text-align: left; font-size: 15px;">A random image from your collection will be set as
                 background
@@ -150,11 +218,14 @@
                 <br>
                 <br>
               <div id="images" style="text-align: left;"></div>
-              <p style="font-size: 15px;padding: 10px; ">
-                Our Daily Quotes are provided by <a href="https://zenquotes.io/" target="_blank"
-                  style="color:white !important">ZenQuotes API</a>
-              </p>
-            </div>
+            
+            </div>            
+            <br>
+            <br>
+            <p style="font-size: 15px;padding: 10px; ">
+              Our Daily Quotes are provided by <a href="https://zenquotes.io/" target="_blank"
+                style="color:white !important">ZenQuotes API</a>
+            </p>
         </center>
       </div>
     </div>
@@ -196,6 +267,8 @@
   }
 
   .settings-section {
+    text-decoration: none;
+    color: inherit;
     padding: 20px 0;
     margin-top: 10px;
     border-bottom: solid rgba(255, 255, 255, 0.3) 1px;
@@ -208,7 +281,8 @@
 
   }
 
-  .settings {
+  .menu {
+    display: block;
     position: fixed;
     top: 20px;
     right: 25px;
@@ -216,7 +290,13 @@
     font-size: 17px;
     color: white;
     cursor: pointer;
+  }
 
+  .menu>*{
+    margin-left: 20px;
+    display: inline-block;
+    color: inherit;
+    text-decoration: none;
   }
 
   .settings-desc {
@@ -355,13 +435,13 @@
 
 
   .card {
-    backdrop-filter: blur(5px) saturate(170%) brightness(1.2);
+    backdrop-filter: blur(5px) saturate(170%) brightness(1.35);
     -webkit-backdrop-filter: blur(5px) saturate(170%) brightness(1.2);
     background-color: var(--main-color);
     border-radius: 25px;
-    box-shadow: inset 1px 3px 3px rgba(255, 255, 255, .25), 0 0 10px rgba(0, 0, 0, .15) !important;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.15) !important;
-    border-right: 1px solid rgba(255, 255, 255, 0.15) !important;
+    box-shadow: rgba(255, 255, 255, 0.25) -1px 1px 9px 0px inset, rgba(0, 0, 0, 0.15) 0px 0px 10px !important;
+    border: 1px solid rgba(255, 255, 255, 0.2) !important;
+   
   }
 
   :root {
@@ -564,6 +644,7 @@
     background: #262626;
     background-repeat: no-repeat;
     background-size: cover;
+    background-position: center center;
   }
 
   .spotify-embed {

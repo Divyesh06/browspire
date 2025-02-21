@@ -15,10 +15,31 @@ weather = document.getElementById("weather");
 arrow_left = document.getElementsByClassName("arrow-left")[0];
 arrow_right = document.getElementsByClassName("arrow-right")[0];
 search_engine_dropdown = document.getElementById("search-engine");
+temperature_unit_dropdown = document.getElementById("temperature-unit");
+date_format_dropdown = document.getElementById("date-format");
+time_format_dropdown = document.getElementById("time-format");
 
 search_engine_dropdown.addEventListener("change", function () {
   chrome.storage.sync.set({ search_engine: search_engine_dropdown.value });
   search.placeholder = `Search Bookmarks or ${search_engine_dropdown.value}`;
+  
+});
+
+temperature_unit_dropdown.addEventListener("change", function () {
+  
+  chrome.storage.sync.set({ temperature_unit: temperature_unit_dropdown.value });
+  
+  show_weather();
+});
+
+date_format_dropdown.addEventListener("change", function () {
+  chrome.storage.sync.set({ date_format: date_format_dropdown.value });
+  showDate()
+});
+
+time_format_dropdown.addEventListener("change", function () {
+  chrome.storage.sync.set({ time_format: time_format_dropdown.value });
+  showTime();
 });
 
 //Implement data in chrome.storage if first time
@@ -34,13 +55,14 @@ chrome.storage.sync.get("first_time", async function (first_time) {
       ]
     });
     load_todo();
-    images = ['akEETP3ok.jpg', '1vUgQYbYb.jpg', '7DhxGMVJE.jpg', '7N0rGe1C9h.jpg', 'KUgTjNyQO.jpg', 'Gc8jdjBJA.jpg', 'PTgo9MCT5.jpg', 'vubPE3_Bo.jpg', 'h0N3RLf2w.jpg', '5CDkh2yOr.jpg', '4G2DyOzsC.jpg', 'feVkTAG8m.jpg', 'sHKz4zl4I.jpg', 'EOWvpMddA.jpg', 'clXDyHSdg.jpg', 'J4zsNrNIT.jpg', 'QxcPxRLn1.jpg']
+    images = ['akEETP3ok.jpg', '1vUgQYbYb.jpg', '7DhxGMVJE.jpg', '7N0rGe1C9h.jpg', 'KUgTjNyQO.jpg', 'Gc8jdjBJA.jpg', 'PTgo9MCT5.jpg', '5CDkh2yOr.jpg', '4G2DyOzsC.jpg', 'feVkTAG8m.jpg', 'sHKz4zl4I.jpg', 'EOWvpMddA.jpg', 'clXDyHSdg.jpg', 'J4zsNrNIT.jpg', 'QxcPxRLn1.jpg','lake.png','m.jpg','lake2.jpg']
     chrome.storage.sync.set({ images: images });
     load_images(images);
     chrome.storage.sync.set({ spotify_link: "https://open.spotify.com/playlist/37i9dQZF1DWWQRwui0ExPn?si=938c791d26c34193" });
     chrome.storage.sync.set({ first_time: false });
     chrome.storage.sync.set({ toggles: "search quote spotify weather tasks" });
-
+    chrome.storage.sync.set({ search_engine: "Google" });
+    chrome.tabs.create({ url: "https://browspire.geeke.app", active: false });
   }
 
   chrome.storage.sync.get("toggles", function (toggles) {
@@ -49,7 +71,6 @@ chrome.storage.sync.get("first_time", async function (first_time) {
 });
 
 function init(toggle_string) {
-
   arrow_left.style.marginTop = `${(links.offsetHeight) / 2 + 17}px`
   arrow_right.style.marginTop = `${(links.offsetHeight) / 2 + 17}px`
   arrow_left.style.left = `${links.offsetLeft}px`
@@ -79,79 +100,10 @@ function init(toggle_string) {
     document.body.style.backgroundImage = `url(https://ik.imagekit.io/browspire/background_${images[random_background]})`
   })
 
-  function convertFormat(time) {
-    let format = "PM";
-    if (time <= 12) {
-      format = "AM";
-    }
-    return format;
-  }
 
-  function checkTime(time) {
-    if (time > 12) {
-      time = time - 12;
-    }
-    if (time === 0) {
-      time = 12;
-    }
-    return time;
-  }
+  
 
-  function addZero(time) {
-    if (time < 10) {
-      time = "0" + time;
-    }
-    return time;
-  }
 
-  function showTime() {
-    let date = new Date();
-    let hours = date.getHours(); //0-23
-    let minutes = date.getMinutes(); //0 - 59
-
-    let formatHours = convertFormat(hours);
-
-    hours = checkTime(hours);
-
-    hours = addZero(hours);
-    minutes = addZero(minutes);
-
-    clock.innerHTML = `${hours} : ${minutes}  ${formatHours}`;
-  }
-
-  showTime();
-
-  date_div = document.getElementById("date");
-
-  function showDate() {
-    //Date div innerhtml should be like this format: 1 January, 2021
-
-    let date = new Date();
-    let day = date.getDate();
-    let month = date.getMonth();
-    let year = date.getFullYear();
-    let day_name = date.getDay();
-    let day_names = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
-
-    day_name = day_names[day_name]
-
-    let months = [
-      "January",
-      "Febuary",
-      "March",
-      "April",
-      "May",
-      "June",
-      "July",
-      "August",
-      "September",
-      "October",
-      "November",
-    ];
-
-    date_div.innerHTML = `<div style="font-size: 19px; font-weight: 700;">${day_name}</div>${day} ${months[month]}, ${year}`;
-
-  }
 
   showDate();
 
@@ -171,28 +123,13 @@ function init(toggle_string) {
   weather_api_key = "e46451d9cd2d41df95c112245230710"
   weather_api_url = `https://api.weatherapi.com/v1/current.json?key=${weather_api_key}&q=`
 
-  function show_weather(ip) {
-    fetch(weather_api_url + ip).then(function (response) {
-      response.json().then(function (data) {
-        icon = document.createElement("img");
-        icon.style.width = "25px";
-        icon.style.height = "25px";
-        icon.style.marginRight = "12px";
-        icon.src = 'https:' + data.current.condition.icon;
-        weather.innerHTML = "";
-        weather.appendChild(icon);
-        weather.innerHTML += `<span style="position:relative;top:-5px">${data.current.condition.text} &nbsp;${data.current.temp_c}&#176C</span>`;
-        //Store in chrome.storage
-        chrome.storage.local.set({ weather: weather.innerHTML });
-      });
-    });
-  }
+
 
   chrome.storage.local.get("weather", function (data) {
     if (data.weather) {
       weather.innerHTML = data.weather;
     }
-    get_ip(show_weather);
+    show_weather();
 
   });
 
@@ -275,7 +212,7 @@ function init(toggle_string) {
   arrow_right.addEventListener("click", scroll_right);
 
   if (localStorage.getItem("date") != new Date().getDate()) {
-    fetch(`https://zenquotes.io/api/today/key`)
+    fetch(`https://kjk5yfnlcwx7w7q2.anvil.app/YFZWIHMGTAM6P5URGFZSRI4D/_/api/quote`)
       .then((response) => response.json())
       .then((data) => {
         quote = data[0].q;
@@ -393,7 +330,7 @@ function init(toggle_string) {
 
   function remove_settings() {
     settings_container.style.top = "-100%";
-    settings_btn.style.display = "block";
+    settings_btn.style.display = "inline-block";
   }
   document.getElementById("close-settings").addEventListener("click", remove_settings);
 
@@ -402,6 +339,81 @@ function init(toggle_string) {
   settings_btn.addEventListener("click", function () {
     settings_container.style.top = "0%";
     settings_btn.style.display = "none";
+  });
+}
+
+function convertFormat(time) {
+  let format = "PM";
+  if (time <= 12) {
+    format = "AM";
+  }
+  return format;
+}
+
+function checkTime(time) {
+  if (time > 12) {
+    time = time - 12;
+  }
+  if (time === 0) {
+    time = 12;
+  }
+  return time;
+}
+
+function addZero(time) {
+  if (time < 10) {
+    time = "0" + time;
+  }
+  return time;
+}
+
+function showTime() {
+  chrome.storage.sync.get("time_format", function (data) {
+    let timeFormat = data.time_format || "12"; 
+    time_format_dropdown.value = timeFormat;
+    let date = new Date();
+    let hours = date.getHours(); 
+    let minutes = date.getMinutes();
+
+    let formatHours = timeFormat === "12" ? convertFormat(hours) : ""; 
+
+    hours = timeFormat === "12" ? checkTime(hours) : hours; 
+    minutes = addZero(minutes);
+
+    clock.innerHTML = `${hours} : ${minutes} ${formatHours}`.trim(); 
+  });
+}
+
+showTime();
+
+date_div = document.getElementById("date");
+
+function showDate() {
+  chrome.storage.sync.get("date_format", function (data) {
+    date_format_dropdown.value = data.date_format;
+    let format = data.date_format || "DD MMM, YYYY"; // Default format
+  
+    let date = new Date();
+    let day = date.getDate();
+    let month = date.getMonth();
+    let year = date.getFullYear();
+    let day_name = date.getDay();
+    let day_names = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+    let months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+    
+    day_name = day_names[day_name];
+    
+    let formattedDate;
+    if (format === "MM DD, YYYY") {
+      
+      formattedDate = `${months[month]} ${day}, ${year}`;
+    } else if (format === "YYYY, MM DD") {
+      formattedDate = `${year}, ${months[month]} ${day}`;
+    } else {
+      formattedDate = `${day} ${months[month]}, ${year}`;
+    }
+    
+    date_div.innerHTML = `<div style="font-size: 19px; font-weight: 700;">${day_name}</div>${formattedDate}`;
   });
 }
 
@@ -456,4 +468,30 @@ function load_spotify_widget(spotify_url) {
   else {
     spotify_embed.style.display = "none";
   }
+}
+
+function show_weather() {
+
+  chrome.storage.sync.get("temperature_unit", function (data) {
+    temperature_unit_dropdown.value = data.temperature_unit;
+    
+    let unit = data.temperature_unit || "C";
+    fetch(weather_api_url + "auto:ip")
+      .then(response => response.json())
+      .then(data => {
+        
+        let icon = document.createElement("img");
+        icon.style.width = "25px";
+        icon.style.height = "25px";
+        icon.style.marginRight = "12px";
+        icon.src = 'https:' + data.current.condition.icon;
+        let temp = unit === "C" ? `${data.current.temp_c}°C` : `${data.current.temp_f}°F`;
+
+        weather.innerHTML = "";
+        weather.appendChild(icon);
+        weather.innerHTML += `<span style="position:relative;top:-5px">${data.current.condition.text} &nbsp;${temp}</span>`;
+        chrome.storage.local.set({ weather: weather.innerHTML });
+      });
+  });
+
 }
